@@ -1,0 +1,238 @@
+<section class="view" id="view-tour">
+  <header>
+    <h2>
+      <span class="en">What this project is, in two minutes</span>
+      <span class="ru">Что это за проект, за две минуты</span>
+    </h2>
+    <p class="lead">
+      <span class="en"
+        >A public charge point is not just a socket. It is a small computer that asks an office far away
+        whether your card may charge, reports every watt-hour so somebody can bill it, and obeys the grid
+        operator when the street cannot give everyone full power. This project builds such a station and
+        tests it the way its maker would.</span
+      >
+      <span class="ru"
+        >Зарядная станция на улице — это не просто розетка. Это маленький компьютер: он спрашивает у
+        далёкого офиса, можно ли вашей карте заряжаться, сообщает каждый ватт-час, чтобы его кто-то
+        выставил в счёт, и слушается оператора сети, когда на всех не хватает мощности. В этом проекте
+        такая станция сделана и проверена так, как проверял бы её производитель.</span
+      >
+    </p>
+  </header>
+
+  <div class="stops">
+    <div class="stop">
+      <div class="num">1</div>
+      <div class="body">
+        <h3><span class="en">One charging session</span><span class="ru">Одна сессия зарядки</span></h3>
+        <div class="scene" id="tour-scene"></div>
+        <p id="tour-now" class="mono small"></p>
+        <p>
+          <span class="en"
+            >A driver plugs in, holds a card to the reader, the car charges, the driver leaves. Between the
+            station and the car runs one thin wire, the pilot, on which the car says what it wants. Between
+            the station and the back office runs a network connection carrying messages in a language called
+            OCPP.</span
+          >
+          <span class="ru"
+            >Водитель втыкает кабель, прикладывает карту, машина заряжается, водитель уезжает. Между
+            станцией и машиной идёт один тонкий провод, Pilot: по нему машина говорит, чего хочет. Между
+            станцией и облаком идёт сетевое соединение с сообщениями на языке OCPP.</span
+          >
+        </p>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="num">2</div>
+      <div class="body">
+        <h3>
+          <span class="en">The station and the back office talk in writing</span>
+          <span class="ru">Станция и облако переписываются</span>
+        </h3>
+        <p>
+          <span class="en"
+            >Every message is a short line of text. The station asks, the back office answers, and each answer
+            carries the number of the question it belongs to, so neither side mixes them up.</span
+          >
+          <span class="ru"
+            >Каждое сообщение — короткая строка текста. Станция спрашивает, облако отвечает, и в каждом
+            ответе стоит номер своего вопроса, чтобы стороны ничего не перепутали.</span
+          >
+        </p>
+        <div class="card talk" id="tour-talk"></div>
+        <div class="row">
+          <a class="btn" href="#wire"
+            ><span class="en">Take a message apart</span><span class="ru">Разобрать сообщение по частям</span></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="num">3</div>
+      <div class="body">
+        <h3><span class="en">Two versions at once</span><span class="ru">Две версии сразу</span></h3>
+        <p>
+          <span class="en"
+            >Charge points in the street mostly speak OCPP 1.6, from 2015. New ones are certified against
+            2.0.1. A tester has to know both, because an operator runs both at the same time. This station
+            speaks each of them, and the same test is written once and run against both.</span
+          >
+          <span class="ru"
+            >Станции на улице в основном говорят на OCPP 1.6 2015 года. Новые сертифицируют по 2.0.1.
+            Тестировщику нужны обе, потому что у оператора они работают одновременно. Эта станция говорит на
+            каждой, а один и тот же тест написан один раз и прогоняется против обеих.</span
+          >
+        </p>
+        <div class="sidebyside" id="tour-versions"></div>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="num">4</div>
+      <div class="body">
+        <h3><span class="en">What can go wrong</span><span class="ru">Что может пойти не так</span></h3>
+        <div class="hazards">
+          <div class="card hazard">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 20a14 14 0 0 1 28 0M12 26a8 8 0 0 1 16 0M20 32v.5" />
+              <path d="M8 8l24 24" stroke-width="2.5" />
+            </svg>
+            <h3><span class="en">The network drops</span><span class="ru">Пропала связь</span></h3>
+            <p>
+              <span class="en">A car park in a basement loses its connection for twenty minutes.</span>
+              <span class="ru">В подземном паркинге на двадцать минут пропадает связь.</span>
+            </p>
+            <p class="rule">
+              <span class="en">The car keeps charging. Everything owed is kept and delivered later, once, in order.</span>
+              <span class="ru">Машина продолжает заряжаться. Всё, что станция должна сказать, копится и доходит потом, один раз и по порядку.</span>
+            </p>
+          </div>
+          <div class="card hazard">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="7" y="12" width="26" height="17" rx="3" />
+              <path d="M12 20h7M24 17v6" />
+            </svg>
+            <h3><span class="en">A card that may not charge</span><span class="ru">Карта, которой нельзя</span></h3>
+            <p>
+              <span class="en">A blocked card, an expired one, or one nobody has ever seen.</span>
+              <span class="ru">Заблокированная карта, просроченная или вообще неизвестная.</span>
+            </p>
+            <p class="rule">
+              <span class="en">Nothing starts, and no energy is given away. A stranger's card cannot stop your session either.</span>
+              <span class="ru">Ничего не начинается, энергия не раздаётся. И чужой картой нельзя остановить вашу сессию.</span>
+            </p>
+          </div>
+          <div class="card hazard">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 4L10 22h8l-2 14 14-18h-8z" />
+            </svg>
+            <h3><span class="en">The street cannot give full power</span><span class="ru">Улица не тянет полную мощность</span></h3>
+            <p>
+              <span class="en">The operator sends a limit: give no more than 10 A.</span>
+              <span class="ru">Оператор присылает ограничение: давать не больше 10 А.</span>
+            </p>
+            <p class="rule">
+              <span class="en">The station obeys at once, and goes back to full power when the limit expires. Below 6 A it pauses: no car may charge on less.</span>
+              <span class="ru">Станция сразу слушается и возвращается к полной мощности, когда ограничение истекает. Ниже 6 А — пауза: на меньшем ни одна машина заряжаться не может.</span>
+            </p>
+          </div>
+          <div class="card hazard">
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6v12M20 24v.5" />
+              <circle cx="20" cy="20" r="15" />
+            </svg>
+            <h3><span class="en">Nonsense on the wire</span><span class="ru">Мусор в проводе</span></h3>
+            <p>
+              <span class="en">Broken software sends a message that is not valid at all.</span>
+              <span class="ru">Чужая сломанная программа шлёт сообщение, которое вообще не годится.</span>
+            </p>
+            <p class="rule">
+              <span class="en">It is refused with a reason, the connection stays up, and nothing is half carried out.</span>
+              <span class="ru">Оно отклоняется с причиной, соединение остаётся, и ничего не выполняется наполовину.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="num">5</div>
+      <div class="body">
+        <h3><span class="en">How it is tested</span><span class="ru">Как это проверяется</span></h3>
+        <p>
+          <span class="en"
+            >Each rule above became automatic checks, and every check is one plain sentence plus the code that
+            proves it. The checks run again after every change.</span
+          >
+          <span class="ru"
+            >Каждое правило выше превратилось в автоматические проверки, и каждая проверка — это одно
+            понятное предложение плюс код, который его доказывает. Проверки запускаются после каждого
+            изменения.</span
+          >
+        </p>
+        <div class="card tiles" id="tour-tiles"></div>
+        <p>
+          <span class="en">Three independent programs ask the questions, so a mistake shared by our station and our own client would still be caught.</span>
+          <span class="ru">Вопросы задают три независимые программы, поэтому ошибку, общую для нашей станции и нашего клиента, всё равно поймают.</span>
+        </p>
+        <div class="tools">
+          <div class="card">
+            <h3><span class="en">Messages built by hand</span><span class="ru">Сообщения, собранные вручную</span></h3>
+            <p>
+              <span class="en">The project's own client. It can also send deliberately broken messages.</span>
+              <span class="ru">Собственный клиент проекта. Он умеет слать и нарочно испорченные сообщения.</span>
+            </p>
+          </div>
+          <div class="card">
+            <h3>ocpp</h3>
+            <p>
+              <span class="en">The reference library this industry tests against, written by other people. It sits at the other end of the connection.</span>
+              <span class="ru">Эталонная библиотека, на которой тестируется отрасль, написанная другими людьми. Она стоит с другой стороны соединения.</span>
+            </p>
+          </div>
+          <div class="card">
+            <h3><span class="en">The official schemas</span><span class="ru">Официальные схемы</span></h3>
+            <p id="tour-schemas"></p>
+          </div>
+        </div>
+        <div class="row">
+          <a class="btn" href="#replay"
+            ><span class="en">Read the checks and their messages</span><span class="ru">Прочитать проверки и их сообщения</span></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="num">6</div>
+      <div class="body">
+        <h3>
+          <span class="en">How we know the checks are any good</span>
+          <span class="ru">Откуда известно, что проверки чего-то стоят</span>
+        </h3>
+        <p>
+          <span class="en"
+            >A check that never fails proves nothing. So the station is broken on purpose, one small bug at a
+            time, and all the checks run again. A good set notices every bug.</span
+          >
+          <span class="ru"
+            >Проверка, которая никогда не падает, ничего не доказывает. Поэтому станцию ломают нарочно, по
+            одному маленькому багу, и прогоняют все проверки снова. Хороший набор замечает каждый.</span
+          >
+        </p>
+        <div class="card" style="display: grid; gap: 10px">
+          <div class="dots" id="tour-dots"></div>
+          <div id="tour-hunt"></div>
+        </div>
+        <div class="row">
+          <a class="btn primary" href="#live"
+            ><span class="en">Plant a bug yourself</span><span class="ru">Посадить баг самому</span></a
+          >
+          <a class="btn" href="#bugs"><span class="en">See all planted bugs</span><span class="ru">Все посаженные баги</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

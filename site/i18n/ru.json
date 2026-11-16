@@ -1,0 +1,513 @@
+{
+ "suites": {
+  "test_session": [
+   "A session from start to finish",
+   "Сессия от начала до конца",
+   "The cable goes in, the card is accepted, the car charges, the driver leaves",
+   "Кабель воткнули, карту приняли, машина зарядилась, водитель уехал"
+  ],
+  "test_offline": [
+   "When the network goes down",
+   "Когда пропадает связь",
+   "The car keeps charging, and nothing is lost or billed twice",
+   "Машина продолжает заряжаться, и ничего не теряется и не выставляется дважды"
+  ],
+  "test_authorization": [
+   "Who is allowed to charge",
+   "Кому можно заряжаться",
+   "Cards the back office accepts, blocks, or has never heard of",
+   "Карты, которые облако принимает, блокирует или вообще не знает"
+  ],
+  "test_smart_charging": [
+   "Smart charging: limits from the operator",
+   "Умная зарядка: ограничения от оператора",
+   "How much current the station may give, and when the limit expires",
+   "Сколько тока станция может давать и когда ограничение истекает"
+  ],
+  "test_remote_commands": [
+   "Orders from the back office",
+   "Команды из облака",
+   "Start, stop, restart, take a connector out of service, release a cable",
+   "Запустить, остановить, перезапустить, вывести коннектор, отпустить кабель"
+  ],
+  "test_connector_status": [
+   "The pilot wire and what is reported",
+   "Провод Pilot и что сообщается",
+   "What the car asks for, and the one word the station reports",
+   "Что просит машина и каким одним словом станция это сообщает"
+  ],
+  "test_envelope": [
+   "The envelope every message travels in",
+   "Конверт, в котором едет каждое сообщение",
+   "The rules of OCPP-J: questions, answers, refusals and damaged messages",
+   "Правила OCPP-J: вопросы, ответы, отказы и повреждённые сообщения"
+  ],
+  "test_schemas": [
+   "The official schemas as the oracle",
+   "Официальные схемы как эталон",
+   "Every message is checked against the schema published with the standard",
+   "Каждое сообщение сверяется со схемой, опубликованной со стандартом"
+  ],
+  "test_robustness": [
+   "Garbage and bad timing",
+   "Мусор и неудачный момент",
+   "Whatever arrives, the station keeps standing and answers the next order",
+   "Что бы ни пришло, станция устоит и ответит на следующую команду"
+  ],
+  "test_websocket": [
+   "Over a real connection",
+   "По настоящему соединению",
+   "The handshake, real frames, and a connection cut in the middle",
+   "Рукопожатие, настоящие кадры и оборванное посреди сессии соединение"
+  ],
+  "test_interop": [
+   "Talking to somebody else's software",
+   "Разговор с чужой программой",
+   "The reference library of this industry sits at the other end",
+   "С другой стороны стоит эталонная библиотека отрасли"
+  ],
+  "test_pages": [
+   "The visual page in a browser",
+   "Наглядная страница в браузере",
+   "The five views open, switch language and react to planted bugs",
+   "Пять разделов открываются, переключают язык и реагируют на посаженные баги"
+  ]
+ },
+ "areas": {
+  "envelope": [
+   "The rules of talking",
+   "Правила общения"
+  ],
+  "session": [
+   "The car and the cable",
+   "Машина и кабель"
+  ],
+  "money": [
+   "Who pays, and how much",
+   "Кто платит и сколько"
+  ],
+  "safety": [
+   "When the network is down",
+   "Когда нет связи"
+  ],
+  "smart": [
+   "Smart charging",
+   "Умная зарядка"
+  ],
+  "dialect": [
+   "The two versions",
+   "Две версии"
+  ]
+ },
+ "tests": {
+  "test_a_cable_with_nobody_authorised_is_preparing_not_charging": "Вставленный кабель без приложенной карты сообщается как «готовится», но никогда как «заряжается».",
+  "test_a_call_is_four_parts": "Вопрос в проводе — это число 2, уникальный номер, название действия и его содержимое.",
+  "test_a_car_that_is_not_ready_pauses_the_session_without_ending_it": "Когда машина перестаёт брать мощность, сессия остаётся открытой, и станция сообщает, что причина в машине.",
+  "test_a_card_on_one_connector_does_not_touch_the_other": "Карта, приложенная у одного коннектора, начинает сессию там и оставляет второй коннектор свободным.",
+  "test_a_card_the_back_office_blocked_stays_blocked_while_the_link_is_down": "Карта, которую облако отклонило раньше, остаётся отклонённой и тогда, когда спросить некого.",
+  "test_a_card_the_back_office_does_not_accept_starts_nothing": "Заблокированная, просроченная или неизвестная карта отклоняется, и сессия не начинается.",
+  "test_a_card_the_station_has_seen_before_works_while_the_link_is_down": "Без связи станция пропускает карту, если раньше облако её приняло.",
+  "test_a_connector_out_of_service_comes_back_when_it_is_put_back": "Выведенный из работы коннектор сообщает о себе «недоступен» и снова становится свободным, когда его возвращают.",
+  "test_a_connector_taken_out_of_service_refuses_new_sessions": "Коннектор, который оператор вывел из работы, сообщает о себе «недоступен» и ничего не начинает.",
+  "test_a_correct_message_passes": "Сообщение, собранное так, как описывает стандарт, принимается.",
+  "test_a_cut_connection_is_noticed_and_does_not_lose_the_session": "Когда соединение обрывается посреди сессии, станция это замечает, продолжает заряжать и копит то, что должна сказать.",
+  "test_a_damaged_message_that_still_has_an_id_can_be_answered": "Сообщение, у которого читается номер, получает отказ с этим номером.",
+  "test_a_damaged_message_with_a_readable_id_is_refused_with_that_id": "Когда номер ещё читается, отказ несёт его, чтобы отправитель понял, какое сообщение не прошло.",
+  "test_a_deeply_nested_payload_is_refused": "Содержимое, вложенное на сотни уровней, отклоняется схемой, а не разбирается вглубь.",
+  "test_a_fault_on_the_pilot_is_reported_at_once": "Неисправность на проводе Pilot сообщается как неисправность, и мощность не идёт.",
+  "test_a_fresh_station_says_every_connector_is_free": "Сразу после регистрации станция сообщает, что каждый её коннектор свободен.",
+  "test_a_good_card_starts_the_session": "Карта, которую облако принимает, начинает сессию, и машина начинает заряжаться.",
+  "test_a_hard_restart_ends_a_running_session_and_says_why": "Перезапуск, который не может ждать, завершает идущую сессию с причиной «потеря питания», чтобы энергия не повисла в воздухе.",
+  "test_a_known_order_with_made_up_fields_is_refused_not_guessed": "Команда знакомого вида, но с выдуманными полями, отклоняется, а не понимается наполовину.",
+  "test_a_limit_above_what_the_car_asks_for_changes_nothing": "Ограничение 20 А оставляет машину, которая просит 16 А, заряжаться на 16 А.",
+  "test_a_limit_below_six_amps_pauses_the_charging_instead_of_trickling": "Ограничение ниже 6 А — это не медленная зарядка: Pilot не может столько запросить, поэтому зарядка встаёт на паузу.",
+  "test_a_limit_from_the_operator_is_obeyed": "Получив разрешение только на 10 А, станция даёт машине 10 А вместо запрошенных ею 16 А.",
+  "test_a_message_larger_than_a_single_frame_still_arrives": "Сообщение гораздо больше обычного проходит через сокет целиком и получает ответ.",
+  "test_a_message_the_standard_does_not_have_is_an_error": "Запрос схемы выдуманного сообщения заканчивается ошибкой, а не пропускает что попало.",
+  "test_a_message_whose_id_is_unreadable_gets_no_answer": "Если номер не читается, отвечать нечему: станция молчит и работает дальше.",
+  "test_a_message_without_a_readable_id_cannot_be_answered": "Когда не читается сам номер, отвечать не на что, поэтому номер не возвращается.",
+  "test_a_profile_for_a_connector_that_does_not_exist_is_refused": "Ограничение для коннектора 9 отклоняется: у этой станции их два.",
+  "test_a_profile_in_watts_is_refused_by_a_station_that_limits_current": "Эта станция ограничивает ток, поэтому ограничение, записанное в ваттах, отклоняется, а не угадывается.",
+  "test_a_profile_only_touches_the_connector_it_names": "Ограничение на одном коннекторе оставляет машину на другом коннекторе заряжаться как раньше.",
+  "test_a_profile_stops_biting_when_its_window_ends": "Когда окно ограничения заканчивается, станция сама возвращается к полной мощности.",
+  "test_a_profile_that_starts_later_does_not_bite_yet": "Ограничение со временем начала в будущем не трогает машину, пока это время не придёт.",
+  "test_a_refusal_names_a_code_and_a_reason": "Отказ — это число 4, номер, код ошибки, описание и место для подробностей.",
+  "test_a_refused_card_can_be_followed_by_a_good_one": "После отклонённой карты считыватель продолжает работать: следующая хорошая карта начинает сессию.",
+  "test_a_refused_order_leaves_the_station_working": "После команды, которую пришлось отклонить, станция отвечает на следующую как обычно.",
+  "test_a_second_start_on_a_busy_connector_is_refused": "Пока машина заряжается, команда начать на этом же коннекторе ещё одну сессию отклоняется.",
+  "test_a_session_that_begins_and_ends_during_an_outage_is_billed_once": "Целая сессия без связи доходит до облака один раз и полностью, когда связь возвращается.",
+  "test_a_soft_restart_is_accepted_and_the_station_comes_back": "Перезапуск принимается, станция регистрируется заново, и облако видит ещё одну регистрацию.",
+  "test_a_start_without_a_connector_picks_a_free_one": "Команда, в которой не сказано, какой коннектор, выполняется на свободном.",
+  "test_a_station_speaking_another_version_is_turned_away": "Станцию, которая просит версию, на которой облако не говорит, разворачивают на рукопожатии.",
+  "test_a_station_speaking_the_same_version_is_let_in": "Станцию, которая просит версию облака, пускают, и она может разговаривать.",
+  "test_a_station_the_back_office_did_not_accept_does_not_start_working": "Станция, которую облако отклонило или оставило в ожидании, не начинает работать: она ждёт и спрашивает снова.",
+  "test_a_very_long_message_is_refused_without_a_crash": "Сообщение гораздо больше любого настоящего отклоняется, и соединение продолжает работать.",
+  "test_a_whole_session_crosses_a_real_connection": "По настоящему WebSocket станция регистрируется, заряжает машину и сообщает о сессии так же, как в памяти.",
+  "test_a_whole_session_is_reported_from_start_to_finish": "Полная сессия доходит до облака: кто заряжался, сколько времени и сколько энергии получил.",
+  "test_a_wrong_message_is_rejected_and_the_reason_is_named": "Каждый вид ошибки отклоняется официальной схемой, и причина называет, какое поле неверно.",
+  "test_an_answer_carries_the_id_of_its_call": "Ответ — это число 3 и номер вопроса, на который он отвечает, чтобы обе стороны их сопоставили.",
+  "test_an_answer_to_a_message_nobody_sent_is_ignored": "Ответ, номер которого не совпадает ни с одним ожидаемым, отбрасывается, ничего не нарушая.",
+  "test_an_answer_with_the_wrong_id_is_not_taken_for_the_one_being_waited_for": "Пока станция ждёт ответа, ответ с другим номером игнорируется, а не принимается за ожидаемый.",
+  "test_an_invented_order_is_refused_as_not_supported": "Команда, которой в стандарте вообще нет, отклоняется как NotSupported.",
+  "test_an_order_for_a_connector_that_does_not_exist_is_refused": "Команда с коннектором 9 на станции с двумя коннекторами отклоняется с причиной.",
+  "test_an_order_for_a_connector_that_is_not_there_is_refused_with_the_right_reason": "Команда с номером коннектора, которого у станции нет, отклоняется как нарушение ограничения на значение.",
+  "test_an_order_that_arrives_while_the_station_is_waiting_is_answered": "Станция отвечает на команду, даже когда сама ждёт ответа на своё сообщение.",
+  "test_an_order_the_station_does_not_know_is_refused_as_not_implemented": "Команда, которая есть в стандарте, но не реализована на этой станции, отклоняется как NotImplemented.",
+  "test_an_order_with_a_missing_field_is_refused_before_anything_happens": "Команда без обязательного поля отклоняется по официальной схеме и ничего не меняет.",
+  "test_an_order_with_a_value_outside_the_list_is_refused": "Перезапуск вида, которого стандарт не знает, отклоняется, и станция не перезапускается.",
+  "test_an_outage_between_two_messages_does_not_split_the_session": "Связь, пропавшая и вернувшаяся дважды за одну сессию, всё равно оставляет ровно одну сессию.",
+  "test_an_unknown_card_is_refused_while_the_link_is_down": "Без связи карта, которую станция никогда не видела, отклоняется: спросить не у кого.",
+  "test_an_unknown_card_is_reported_differently_by_the_two_versions": "OCPP 1.6 называет неизвестную карту Invalid, а 2.0.1 переименовал этот ответ в Unknown.",
+  "test_another_card_cannot_stop_somebody_else_s_session": "Другая карта не завершает сессию, которую не начинала: посторонний не может остановить вашу зарядку.",
+  "test_any_call_survives_the_wire": "Любой номер, действие и содержимое, записанные в провод, читаются обратно без изменений.",
+  "test_any_json_array_is_either_a_message_or_refused": "Любой массив JSON либо является правильным сообщением, либо отклоняется; ничего промежуточного не выполняется.",
+  "test_any_text_at_all_leaves_the_station_answering": "Отправьте станции какой угодно текст: она всё равно ответит на следующую команду.",
+  "test_both_sides_agree_which_version_they_speak": "Рукопожатие определяет версию OCPP: соединение несёт подпротокол этого прогона.",
+  "test_charging_carries_on_while_the_back_office_is_unreachable": "Когда связь пропадает, машина продолжает заряжаться: счётчик считает, сессия остаётся открытой.",
+  "test_clearing_a_profile_that_is_not_there_says_so": "Снятие ограничения, которого у станции нет, получает ответ Unknown, а не Accepted.",
+  "test_every_change_of_status_is_reported_once": "Станция сообщает об изменении состояния, когда оно происходит, и не повторяется между изменениями.",
+  "test_every_schema_is_strict_about_unknown_fields": "Ни одно сообщение ни одной версии не принимает молча поле, которого в стандарте нет.",
+  "test_everything_owed_arrives_when_the_link_comes_back": "После возвращения связи все отложенные сообщения доставляются, начиная с самого старого.",
+  "test_garbage_never_takes_the_station_down": "Какая бы бессмыслица ни пришла, станция переживает её и отвечает на следующую настоящую команду.",
+  "test_in_1_6_the_back_office_hands_out_the_transaction_number": "В OCPP 1.6 станция не знает номер сессии, пока облако не ответит.",
+  "test_in_2_0_1_every_event_of_a_session_is_numbered_in_order": "Каждое сообщение сессии несёт следующий номер, чтобы облако видело, что ничего не потерялось.",
+  "test_in_2_0_1_the_messages_kept_during_an_outage_say_so": "OCPP 2.0.1 помечает каждое событие, случившееся без связи, поэтому пропуск виден.",
+  "test_in_2_0_1_the_station_chooses_the_transaction_id_itself": "В OCPP 2.0.1 имя сессии даёт сама станция, поэтому она может начать сессию, когда её никто не слышит.",
+  "test_malformed_messages_are_refused_with_the_right_code": "Любая форма повреждённого сообщения отклоняется, и отказ называет ту причину, которую даёт стандарт.",
+  "test_neither_version_bounds_the_connector_number_in_its_schema": "Ни одна версия не ограничивает номер коннектора в схеме, поэтому полагаться на схему станция не может.",
+  "test_nothing_is_sent_while_the_link_is_down": "Пока нет связи, станция ничего не отправляет и копит то, что должна сказать.",
+  "test_power_is_the_current_the_car_takes_at_the_mains_voltage": "Во время зарядки сообщаемая мощность равна току, который берёт машина, умноженному на 230 В.",
+  "test_pulling_the_cable_out_ends_the_session_and_says_why": "Если во время зарядки вынуть кабель, сессия заканчивается, и причиной названо, что машина отключилась.",
+  "test_random_text_is_never_mistaken_for_a_message": "Случайный текст либо отклоняется как повреждённый, либо является правильным сообщением; наполовину он не читается никогда.",
+  "test_removing_the_limit_brings_the_power_back": "Когда ограничение снято, машина возвращается к току, который просила.",
+  "test_required_fields_are_really_required": "Для каждого сообщения пропуск обязательного поля отклоняется. Всего проверяется 103 сообщения.",
+  "test_round_trip": "Всё, что записано в провод, читается обратно как то же самое сообщение.",
+  "test_sending_into_a_closed_connection_raises_instead_of_pretending": "Запись в исчезнувшее соединение падает с ошибкой: станция не должна думать, что сообщение доставлено.",
+  "test_stopping_a_session_that_is_not_there_is_refused": "Команда остановить сессию, которой никто не ведёт, отклоняется, а не принимается молча.",
+  "test_taking_a_busy_connector_out_of_service_waits_for_the_car": "На просьбу вывести занятый коннектор станция отвечает «запланировано» и доводит сессию до конца.",
+  "test_the_answer_about_a_card_uses_the_words_of_its_version": "Облако отвечает о карте в той форме, которую задаёт его версия, вплоть до названий полей.",
+  "test_the_back_office_can_ask_for_a_message_at_any_time": "На просьбу сообщить состояние станция отправляет его сразу.",
+  "test_the_back_office_can_change_how_often_the_station_calls_in": "После того как облако сокращает интервал, станция выходит на связь настолько же чаще.",
+  "test_the_back_office_can_start_a_session_from_afar": "Сессия, начатая из облака, заряжает машину так же, как карта у считывателя.",
+  "test_the_back_office_can_stop_the_session_it_started": "Сессия, остановленная из облака, заканчивается с причиной «удалённо».",
+  "test_the_end_of_a_session_carries_the_number_the_back_office_gave_it": "Сообщение, завершающее сессию, называет ту же сессию, что и сообщение, которое её начало.",
+  "test_the_energy_the_back_office_bills_is_the_energy_the_meter_counted": "То, что облако выставит в счёт, равно разнице, которую показывает собственный счётчик станции, с точностью до ватт-часа.",
+  "test_the_higher_stack_level_wins": "Когда действуют два ограничения, решает то, что на более высоком уровне, даже если оно разрешает больше.",
+  "test_the_library_as_a_charge_point_is_understood_by_this_back_office": "Зарядная станция, собранная из эталонной библиотеки, регистрируется и авторизует карту в облаке этого проекта.",
+  "test_the_library_gives_this_station_its_transaction_number": "Номер сессии, который выдала библиотека, станция затем использует, чтобы эту сессию завершить.",
+  "test_the_limit_survives_a_pause_in_charging": "Ограничение, заданное до паузы машины, продолжает действовать, когда машина снова начинает брать мощность.",
+  "test_the_pilot_states_walk_through_a_session_in_order": "За одну сессию Pilot проходит A, B, C, B, A, и сообщаемое состояние следует за каждым шагом.",
+  "test_the_reference_library_understands_a_whole_session": "Облако, собранное из эталонной библиотеки, понимает полную сессию станции этого проекта.",
+  "test_the_same_card_stops_the_session_it_started": "Повторное прикладывание той же карты завершает сессию, которую водитель начал.",
+  "test_the_schemas_are_the_ones_published_with_the_standard": "Файлы схем берутся из пакета ocpp, а не из этого репозитория.",
+  "test_the_standard_brings_its_own_schemas": "В обеих версиях есть схема для каждого сообщения: отдельно для запроса и для ответа.",
+  "test_the_station_asks_the_back_office_before_it_lets_anyone_charge": "Перед началом сессии станция спрашивает облако про карту и отправляет её номер.",
+  "test_the_station_gives_exactly_the_current_it_is_allowed": "Какое ограничение ни задай, машина получает именно этот ток или свой максимум, если он меньше.",
+  "test_the_station_keeps_in_touch_while_nothing_happens": "Станция без работы выходит на связь с тем интервалом, который задало облако, и не чаще.",
+  "test_the_station_registers_itself_when_it_powers_on": "При включении станция сообщает, кто она, облако её принимает и задаёт интервал связи.",
+  "test_the_station_says_who_is_holding_back": "Когда мощность не идёт, станция говорит, кто причина: машина или она сама.",
+  "test_the_station_sends_one_message_at_a_time": "У станции никогда нет двух своих неотвеченных сообщений: она отправляет одно и ждёт ответа.",
+  "test_the_station_tells_the_back_office_every_step_of_the_session": "Коннектор сообщается как свободный, потом готовится, потом заряжает, потом завершает, потом снова свободен.",
+  "test_the_two_connectors_report_their_own_status": "Каждый коннектор сообщает своё состояние и свой собственный номер.",
+  "test_the_two_versions_disagree_about_a_meter_reading": "Показание счётчика OCPP 1.6 отклоняется схемой 2.0.1 и наоборот: различаются и значение, и единица.",
+  "test_two_cars_charge_on_two_connectors_at_once": "Два водителя на двух коннекторах получают две отдельные сессии, у каждой своя энергия.",
+  "test_two_profiles_on_the_same_level_leave_the_stricter_one": "Из двух ограничений одного уровня станция держится меньшего тока: давать больше она не вправе.",
+  "test_unlocking_is_refused_while_a_car_is_charging": "Кабель нельзя отпустить посреди сессии: команда отклоняется.",
+  "test_unlocking_works_once_the_session_is_over": "После окончания сессии кабель отпускается по запросу.",
+  "test_every_view_opens_without_a_script_error": "Каждый из пяти разделов наглядной страницы открывается по своему адресу и работает без ошибок скрипта.",
+  "test_planted_bug_turns_its_own_check_red": "На живой странице включение посаженного бага красит в красный ровно соответствующую проверку.",
+  "test_a_healthy_station_keeps_every_check_green": "Без посаженного бага сессия с обрывом связи, ограничением и отказом карты не красит ни одну проверку.",
+  "test_the_live_station_can_speak_both_versions": "Переключение живой станции на OCPP 2.0.1 заставляет её слать сообщения этой версии.",
+  "test_the_message_view_explains_every_field": "Сообщение в разделе про провод показано целиком и разобрано на поля с понятным пояснением.",
+  "test_the_two_versions_are_shown_side_by_side": "Раздел про провод показывает один и тот же момент сессии в обеих версиях OCPP.",
+  "test_language_switch_translates_the_page": "Кнопка RU переводит заголовки и названия тестов на русский, а EN возвращает их обратно.",
+  "test_replay_shows_the_messages_of_a_test": "Раскрытый тест в разделе прогона показывает свои шаги и сообщения обмена, каждое с пояснением.",
+  "test_the_bug_hunt_lists_every_planted_bug": "Охота на баги показывает каждый посаженный баг, изменённую строку и тесты, которые его поймали.",
+  "test_page_fits_a_phone_screen": "При ширине телефона 390 px ни один раздел не прокручивается вбок."
+ },
+ "steps": [
+  [
+   "A background profile allows 10 A",
+   "Фоновое ограничение разрешает 10 А"
+  ],
+  [
+   "A different valid card is held to the reader",
+   "К считывателю прикладывают другую действующую карту"
+  ],
+  [
+   "A driver charges for ten minutes",
+   "Водитель заряжается десять минут"
+  ],
+  [
+   "A profile of 8 A for five minutes",
+   "Ограничение 8 А на пять минут"
+  ],
+  [
+   "A profile on a higher level allows 14 A",
+   "Ограничение на более высоком уровне разрешает 14 А"
+  ],
+  [
+   "A profile that only starts in ten minutes",
+   "Ограничение, которое начинается только через десять минут"
+  ],
+  [
+   "A second car starts on connector 2 while the first is charging",
+   "Вторая машина начинает на коннекторе 2, пока первая заряжается"
+  ],
+  [
+   "A session over a real socket",
+   "Сессия по настоящему сокету"
+  ],
+  [
+   "A station asks to speak OCPP 2.0.1 to a back office that speaks 1.6",
+   "Станция просит говорить на OCPP 2.0.1 с облаком, которое говорит на 1.6"
+  ],
+  [
+   "A valid card is held to the reader",
+   "К считывателю прикладывают действующую карту"
+  ],
+  [
+   "An answer arrives carrying somebody else's id",
+   "Приходит ответ с чужим номером"
+  ],
+  [
+   "An hour passes",
+   "Проходит час"
+  ],
+  [
+   "An order arrives while the station is waiting for an answer",
+   "Команда приходит, пока станция ждёт ответа"
+  ],
+  [
+   "Five minutes later the window is over",
+   "Через пять минут окно закончилось"
+  ],
+  [
+   "Half an hour of charging",
+   "Полчаса зарядки"
+  ],
+  [
+   "Nothing is plugged in",
+   "Ничего не воткнуто"
+  ],
+  [
+   "Power on",
+   "Включение"
+  ],
+  [
+   "Ten minutes later",
+   "Через десять минут"
+  ],
+  [
+   "The back office answers the registration with (\\w+)",
+   "Облако отвечает на регистрацию: $1"
+  ],
+  [
+   "The back office sends: (.*)",
+   "Облако отправляет: $1"
+  ],
+  [
+   "The cable comes out",
+   "Кабель вынимают"
+  ],
+  [
+   "The cable goes into the car",
+   "Кабель вставляют в машину"
+  ],
+  [
+   "The cable is pulled out of the car",
+   "Кабель выдёргивают из машины"
+  ],
+  [
+   "The car charges on with nobody listening",
+   "Машина продолжает заряжаться, когда её никто не слышит"
+  ],
+  [
+   "The car is ready again, but the operator allows less than 6 A",
+   "Машина снова готова, но оператор разрешает меньше 6 А"
+  ],
+  [
+   "The car is ready again",
+   "Машина снова готова"
+  ],
+  [
+   "The car says it is ready and charging begins",
+   "Машина говорит, что готова, и зарядка начинается"
+  ],
+  [
+   "The car stops asking for power",
+   "Машина перестаёт запрашивать мощность"
+  ],
+  [
+   "The car stops taking power",
+   "Машина перестаёт брать мощность"
+  ],
+  [
+   "The card ([\\w-]+) is held to the reader",
+   "К считывателю прикладывают карту $1"
+  ],
+  [
+   "The card is accepted and the car says it is ready",
+   "Карту принимают, и машина говорит, что готова"
+  ],
+  [
+   "The card is used once while the link is up",
+   "Картой пользуются один раз, пока связь есть"
+  ],
+  [
+   "The connection is cut",
+   "Соединение обрывают"
+  ],
+  [
+   "The driver finishes and leaves",
+   "Водитель заканчивает и уезжает"
+  ],
+  [
+   "The driver holds the card to the reader",
+   "Водитель прикладывает карту к считывателю"
+  ],
+  [
+   "The driver holds the same card again to stop",
+   "Водитель прикладывает ту же карту ещё раз, чтобы остановить"
+  ],
+  [
+   "The driver plugs in and holds a card the station has seen before",
+   "Водитель втыкает кабель и прикладывает карту, которую станция уже видела"
+  ],
+  [
+   "The driver plugs the cable into the car",
+   "Водитель вставляет кабель в машину"
+  ],
+  [
+   "The driver stops and leaves",
+   "Водитель останавливает зарядку и уезжает"
+  ],
+  [
+   "The driver stops the session",
+   "Водитель останавливает сессию"
+  ],
+  [
+   "The first car starts on connector 1",
+   "Первая машина начинает на коннекторе 1"
+  ],
+  [
+   "The link comes back",
+   "Связь возвращается"
+  ],
+  [
+   "The link goes down and the same card comes back",
+   "Связь пропадает, и та же карта появляется снова"
+  ],
+  [
+   "The link goes down before the driver arrives",
+   "Связь пропадает до приезда водителя"
+  ],
+  [
+   "The link goes down for ten minutes of charging",
+   "Связь пропадает на десять минут зарядки"
+  ],
+  [
+   "The link to the back office goes down",
+   "Связь с облаком пропадает"
+  ],
+  [
+   "The operator clears the profile",
+   "Оператор снимает ограничение"
+  ],
+  [
+   "The operator sends a limit of 10 A",
+   "Оператор присылает ограничение 10 А"
+  ],
+  [
+   "The operator sends a limit of 4 A, below what the pilot can ask for",
+   "Оператор присылает ограничение 4 А, ниже того, что может запросить Pilot"
+  ],
+  [
+   "The operator starts the session from the back office",
+   "Оператор начинает сессию из облака"
+  ],
+  [
+   "The operator stops the session",
+   "Оператор останавливает сессию"
+  ],
+  [
+   "The operator takes connector 1 out of service",
+   "Оператор выводит коннектор 1 из работы"
+  ],
+  [
+   "The operator takes the busy connector out of service",
+   "Оператор выводит из работы занятый коннектор"
+  ],
+  [
+   "The operator tries to release the cable while the car is charging",
+   "Оператор пытается отпустить кабель во время зарядки"
+  ],
+  [
+   "The pilot wire reports a fault",
+   "Провод Pilot сообщает о неисправности"
+  ],
+  [
+   "The same card is held to the reader again",
+   "Ту же карту прикладывают ещё раз"
+  ],
+  [
+   "The station registers with the library's back office",
+   "Станция регистрируется в облаке, собранном из библиотеки"
+  ],
+  [
+   "The station restarts and registers itself again",
+   "Станция перезапускается и регистрируется заново"
+  ],
+  [
+   "The station restarts at once",
+   "Станция перезапускается немедленно"
+  ],
+  [
+   "Twenty minutes of charging with nobody listening",
+   "Двадцать минут зарядки, когда никто не слушает"
+  ]
+ ],
+ "mutants": {
+  "M01": "Сообщение с лишними частями принимается",
+  "M02": "Принимается номер сообщения любой длины",
+  "M03": "Вместо содержимого принимается что угодно",
+  "M04": "Любое число в начале считается вопросом",
+  "M05": "Станция пытается выполнить команды, которых не поддерживает, вместо отказа",
+  "M06": "Ответ сопоставляется с тем сообщением, которое ждёт, кому бы он ни предназначался",
+  "M07": "Станция шлёт следующее сообщение, не дождавшись ответа на предыдущее",
+  "M08": "Команды выполняются без сверки с официальной схемой",
+  "M09": "В отказе указана неверная причина, и другая сторона не поймёт, что не так",
+  "M10": "Любая карта начинает сессию, в том числе заблокированная облаком",
+  "M11": "Чужой картой можно остановить чужую сессию зарядки",
+  "M12": "Без связи пропускается любая карта, даже та, которую никогда не видели",
+  "M13": "Каждая сессия выставляется как нулевая энергия",
+  "M14": "Сессия считается с нуля, а не с показания счётчика, поэтому в счёт идёт весь ресурс станции",
+  "M15": "Счётчик считает предложенный ток, а не тот, который взяла машина",
+  "M16": "Облако даёт всем сессиям один и тот же номер, и они затирают друг друга",
+  "M17": "Всё, что происходит без связи, выбрасывается",
+  "M18": "Отложенное за время обрыва отдаётся задом наперёд",
+  "M19": "Сообщения, отложенные на время обрыва, собираются заранее, поэтому конец сессии называет не ту транзакцию",
+  "M20": "Станция говорит в мёртвую линию и теряет то, что должна была сказать",
+  "M21": "Если вынуть кабель, сессия продолжается вечно",
+  "M22": "Машина, которая не берёт мощность, всё равно считается заряжающейся",
+  "M23": "Станция, которая ничего не даёт, всё равно сообщает, что машина заряжается",
+  "M24": "О неисправности на проводе Pilot никогда не сообщается",
+  "M25": "Кабель можно отпустить, пока машина заряжается",
+  "M26": "Показание счётчика шлётся каждую секунду вместо каждой минуты",
+  "M27": "Станция выходит на связь каждую секунду вместо заданного интервала",
+  "M28": "При двух действующих ограничениях станция берёт большее и даёт больше разрешённого",
+  "M29": "Уровень ограничения читается наоборот, и побеждает не то ограничение",
+  "M30": "Истёкшее ограничение действует вечно",
+  "M31": "Ограничение, предназначенное на потом, срабатывает сразу",
+  "M32": "Станция предлагает машине меньше 6 А, чего ни одна машина взять не может",
+  "M33": "Машина берёт сколько хочет, а ограничение оператора игнорируется",
+  "M34": "Конец сессии называет собственный номер станции вместо номера от облака",
+  "M35": "Станция начинает работать, даже если облако её не приняло",
+  "M36": "Каждое событие сессии несёт номер ноль, поэтому пропуск не виден",
+  "M37": "Номер сессии меняется между сообщениями, и сессия распадается надвое",
+  "M38": "Сообщения, отложенные за время обрыва, об этом не сообщают",
+  "M39": "Показание счётчика записано в форме не той версии",
+  "M40": "Одно и то же состояние сообщается снова и снова, когда ничего не изменилось",
+  "M41": "Станцию, говорящую на другой версии OCPP, всё равно пускают"
+ }
+}

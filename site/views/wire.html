@@ -1,0 +1,43 @@
+<section class="view" id="view-wire">
+  <header>
+    <h2><span class="en">One message, taken apart</span><span class="ru">Одно сообщение, разобранное на части</span></h2>
+    <p class="lead">
+      <span class="en">Every question and every answer between a charge point and its back office is a short line of text. Here is what is inside one.</span>
+      <span class="ru">Каждый вопрос и каждый ответ между станцией и облаком — короткая строка текста. Вот что у неё внутри.</span>
+    </p>
+  </header>
+
+  <section>
+    <h3><span class="en">1. Pick a moment in the session</span><span class="ru">1. Выберите момент сессии</span></h3>
+    <div class="ask" id="wire-ask"></div>
+    <div class="row">
+      <span class="small muted"><span class="en">Version:</span><span class="ru">Версия:</span></span>
+      <span class="row" id="wire-versions"></span>
+    </div>
+    <div class="card msg" id="wire-msg"></div>
+  </section>
+
+  <section>
+    <h3><span class="en">2. What each part means</span><span class="ru">2. Что означает каждая часть</span></h3>
+    <div class="card" id="wire-parts"></div>
+    <p class="small muted" id="wire-note"></p>
+  </section>
+
+  <section>
+    <h3><span class="en">3. The same moment in the other version</span><span class="ru">3. Тот же момент в другой версии</span></h3>
+    <p>
+      <span class="en">The same thing happens at the station, but the two versions of OCPP write it down differently. This is why a tester cannot assume one and get the other for free.</span>
+      <span class="ru">На станции происходит одно и то же, но две версии OCPP записывают это по-разному. Поэтому тестировщик не может проверить одну и считать, что вторая получилась сама.</span>
+    </p>
+    <div class="sidebyside" id="wire-compare"></div>
+  </section>
+
+  <section>
+    <h3><span class="en">4. Who may say what</span><span class="ru">4. Кто что может говорить</span></h3>
+    <p>
+      <span class="en">The station reports what happens to it. The back office gives orders. An order the station does not know is refused, with a different reason depending on whether the standard has it at all.</span>
+      <span class="ru">Станция сообщает о том, что с ней происходит. Облако отдаёт команды. Команда, которой станция не знает, отклоняется, и причина отличается в зависимости от того, есть ли она вообще в стандарте.</span>
+    </p>
+    <div class="sidebyside" id="wire-who"></div>
+  </section>
+</section>

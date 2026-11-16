@@ -1,0 +1,128 @@
+<section class="view" id="view-live">
+  <header>
+    <h2><span class="en">The live station</span><span class="ru">Живая станция</span></h2>
+    <p class="lead">
+      <span class="en"
+        >This is the station the tests run against, rewritten for the browser and compared with the original
+        message by message. Plug a car in, hold a card to the reader, cut the network, send a limit. Then
+        plant a bug and watch a check turn red.</span
+      >
+      <span class="ru"
+        >Это та самая станция, на которой идут тесты, переписанная для браузера и сверенная с оригиналом
+        сообщение за сообщением. Воткните машину, приложите карту, оборвите связь, пришлите ограничение.
+        Потом посадите баг и посмотрите, как проверка краснеет.</span
+      >
+    </p>
+  </header>
+
+  <div class="live">
+    <div class="col">
+      <div class="scene" id="live-scene"></div>
+
+      <div class="card" style="display: grid; gap: 14px">
+        <div class="statebar">
+          <span class="led" id="live-led"></span>
+          <strong id="live-state"></strong>
+          <span class="pill" id="live-status"></span>
+          <span class="pill" id="live-version"></span>
+        </div>
+        <div class="readout main">
+          <div class="k"><span class="en">Power going into the car</span><span class="ru">Мощность, уходящая в машину</span></div>
+          <div class="v" id="live-w"></div>
+        </div>
+        <div class="meter" aria-hidden="true"><i id="live-bar"></i><b id="live-mark"></b></div>
+        <div class="ctl">
+          <div class="lab">
+            <span><span class="en">The pilot wire to the car</span><span class="ru">Провод Pilot к машине</span></span>
+          </div>
+          <div class="pilotbar" id="live-pilot"></div>
+        </div>
+        <div class="readouts">
+          <div class="readout">
+            <div class="k"><span class="en">Current</span><span class="ru">Ток</span></div>
+            <div class="v" id="live-a"></div>
+          </div>
+          <div class="readout">
+            <div class="k"><span class="en">Allowed by the operator</span><span class="ru">Разрешено оператором</span></div>
+            <div class="v" id="live-limit-v"></div>
+          </div>
+          <div class="readout">
+            <div class="k"><span class="en">This session</span><span class="ru">За эту сессию</span></div>
+            <div class="v" id="live-session"></div>
+          </div>
+          <div class="readout">
+            <div class="k"><span class="en">Sessions at the back office</span><span class="ru">Сессий в облаке</span></div>
+            <div class="v" id="live-sessions"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card wirebox">
+        <h3><span class="en">On the wire right now</span><span class="ru">Сейчас в проводе</span></h3>
+        <div id="live-wire"></div>
+      </div>
+
+      <div class="card" style="display: grid; gap: 8px">
+        <h3><span class="en">Plant a bug</span><span class="ru">Посадить баг</span></h3>
+        <p class="small muted">
+          <span class="en">Each switch changes one line of the station's code, the same change as in the bug hunt. The page then creates the situation where the bug shows.</span>
+          <span class="ru">Каждый переключатель меняет одну строку кода станции, ту же, что и в охоте на баги. После этого страница сама создаёт ситуацию, в которой баг проявляется.</span>
+        </p>
+        <div class="bugs" id="live-bugs"></div>
+        <p class="note" id="live-note" hidden></p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card controls">
+        <h3><span class="en">The driver and the car</span><span class="ru">Водитель и машина</span></h3>
+        <div class="row">
+          <button type="button" class="btn" id="live-plug"><span class="en">Plug in</span><span class="ru">Воткнуть кабель</span></button>
+          <button type="button" class="btn" id="live-ready" aria-pressed="false"><span class="en">Car ready</span><span class="ru">Машина готова</span></button>
+          <button type="button" class="btn" id="live-unplug"><span class="en">Unplug</span><span class="ru">Вынуть кабель</span></button>
+        </div>
+        <div class="ctl">
+          <div class="lab"><span><span class="en">Hold a card to the reader</span><span class="ru">Приложить карту</span></span></div>
+          <div class="row" id="live-cards"></div>
+        </div>
+
+        <h3><span class="en">The operator and the network</span><span class="ru">Оператор и связь</span></h3>
+        <div class="ctl">
+          <label for="live-limit"
+            ><span><span class="en">Limit the current to</span><span class="ru">Ограничить ток до</span></span><b id="live-limit-label"></b></label
+          >
+          <input type="range" id="live-limit" min="0" max="32" step="1" value="10" />
+        </div>
+        <div class="row">
+          <button type="button" class="btn" id="live-profile" aria-pressed="false">
+            <span class="en">Send the limit</span><span class="ru">Отправить ограничение</span>
+          </button>
+          <button type="button" class="btn" id="live-remote"><span class="en">Stop from the back office</span><span class="ru">Остановить из облака</span></button>
+        </div>
+        <div class="row">
+          <button type="button" class="btn danger" id="live-offline" aria-pressed="false">
+            <span class="en">Cut the network</span><span class="ru">Оборвать связь</span>
+          </button>
+          <button type="button" class="btn" id="live-reset"><span class="en">Start over</span><span class="ru">Начать заново</span></button>
+        </div>
+        <div class="ctl">
+          <div class="lab"><span><span class="en">Which version is spoken</span><span class="ru">На какой версии говорим</span></span></div>
+          <div class="row" id="live-versions"></div>
+        </div>
+        <div class="ctl">
+          <div class="lab"><span><span class="en">How fast time runs</span><span class="ru">Как быстро идёт время</span></span></div>
+          <div class="row" id="live-speed"></div>
+        </div>
+      </div>
+
+      <div class="card" style="display: grid; gap: 8px">
+        <h3><span class="en">Checks that run all the time</span><span class="ru">Проверки, которые идут постоянно</span></h3>
+        <p class="small muted">
+          <span class="en">Short versions of the real tests. They look at the station after every simulated second. A grey circle means the situation has not come up yet.</span>
+          <span class="ru">Короткие версии настоящих тестов. Они смотрят на станцию после каждой модельной секунды. Серый кружок значит, что такая ситуация ещё не возникала.</span>
+        </p>
+        <div class="checks" id="live-checks"></div>
+      </div>
+    </div>
+  </div>
+</section>

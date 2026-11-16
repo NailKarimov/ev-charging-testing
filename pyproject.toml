@@ -1,0 +1,74 @@
+[project]
+name = "evse-lab"
+version = "1.0.0"
+description = "A simulated EV charge point (OCPP 1.6J and 2.0.1) and the tests that prove it behaves"
+requires-python = ">=3.12"
+dependencies = ["websockets>=13", "jsonschema>=4.21", "ocpp>=2.0"]
+
+[project.optional-dependencies]
+dev = [
+  "types-jsonschema>=4.21",
+  "pytest>=8.3",
+  "pytest-timeout>=2.3",
+  "pytest-asyncio>=0.24",
+  "hypothesis>=6.112",
+  "allure-pytest>=2.13",
+  "ruff>=0.7",
+  "mypy>=1.13",
+]
+pages = ["playwright~=1.63.0"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+addopts = "-ra --strict-markers --timeout=120"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+  "smoke: the critical path, run first",
+  "once: does not depend on the OCPP version; runs only in the 1.6 run",
+  "v16: OCPP 1.6 only",
+  "v201: OCPP 2.0.1 only",
+  "websocket: needs a real WebSocket connection",
+  "interop: talks to the third-party ocpp library",
+  "pages: opens the visual page in a browser (needs Playwright)",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "PT", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# Both hold wide data tables — planted bugs and scripted conversations — that read better on one line each.
+"scripts/mutants.py" = ["E501"]
+"scripts/build_pages.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["evse_lab", "support", "conftest"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+disallow_untyped_calls = false
+mypy_path = ["src", "tests"]
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = ["ocpp", "ocpp.*", "websockets", "websockets.*", "allure", "allure_commons", "allure_commons.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# The reference library has no type hints, so its decorators make the handlers untyped. That is the
+# point of this file: it talks to somebody else's code exactly as it is published.
+module = ["test_interop"]
+disable_error_code = ["untyped-decorator", "no-any-return"]

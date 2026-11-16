@@ -1,0 +1,30 @@
+<section class="view" id="view-replay">
+  <header>
+    <h2><span class="en">The last test run, replayed</span><span class="ru">Последний прогон тестов, шаг за шагом</span></h2>
+    <p class="lead">
+      <span class="en">Every check is one sentence. Open a check to see the steps it took and the real messages it exchanged with the station during the run.</span>
+      <span class="ru">Каждая проверка — одно предложение. Откройте проверку, чтобы увидеть её шаги и настоящие сообщения, которыми она обменялась со станцией.</span>
+    </p>
+  </header>
+
+  <section>
+    <h3><span class="en">The same checks, two versions, two ways to connect</span><span class="ru">Одни и те же проверки, две версии, два способа соединения</span></h3>
+    <div class="linkcards" id="replay-links"></div>
+    <p class="small muted">
+      <span class="en">A check is skipped where it makes no sense: something that only exists in one version, or a test of the connection itself in a run that has no real connection.</span>
+      <span class="ru">Проверка пропускается там, где не имеет смысла: то, что есть только в одной версии, или проверка самого соединения в прогоне, где настоящего соединения нет.</span>
+    </p>
+  </section>
+
+  <section>
+    <div class="row" style="justify-content: space-between">
+      <h3><span class="en">All checks by topic</span><span class="ru">Все проверки по темам</span></h3>
+      <input class="search" id="replay-search" type="search" autocomplete="off" aria-label="Search checks" />
+    </div>
+    <div class="legend" id="replay-legend"></div>
+    <div id="replay-suites"></div>
+    <p class="muted" id="replay-none" hidden>
+      <span class="en">No check matches the search.</span><span class="ru">По запросу ничего не найдено.</span>
+    </p>
+  </section>
+</section>
